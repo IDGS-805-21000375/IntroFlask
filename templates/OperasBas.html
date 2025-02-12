@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+
+{% block container %}
+     
+<from action="/Multiplicacion" method="post">
+    <h1>Multiplicacion</h1>
+    <label>N1:</label>
+    <input type="text" name="n1"><br>
+    <label>N2:</label>
+    <input type="text" name="n2"><br>
+    <input type="submit" name="calcular"><br>
+</from>
+     
+<from action="/Multiplicacion" method="post">
+    <h1>Division</h1>
+    <label>N1:</label>
+    <input type="text" name="n1"><br>
+    <label>N2:</label>
+    <input type="text" name="n2"><br>
+    <input type="submit" name="calcular"><br>
+</from>
+
+<from action="/Resta" method="post">
+    <h1>Resta</h1>
+    <label>N1:</label>
+    <input type="text" name="n1"><br>
+    <label>N2:</label>
+    <input type="text" name="n2"><br>
+    <input type="submit" name="calcular"><br>
+</from>
+
+<from action="/Suma" method="post">
+    <h1>Suma</h1>
+    <label>N1:</label>
+    <input type="text" name="n1"><br>
+    <label>N2:</label>
+    <input type="text" name="n2"><br>
+    <input type="submit" name="calcular"><br>
+</from>
+{%endblock%}

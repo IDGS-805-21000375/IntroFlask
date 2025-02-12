@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario Cinépolis</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            color: white;
+            text-align: center;
+        }
+        .container {
+            width: 400px;
+            margin: 50px auto;
+            background-color: #002A5C;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.5);
+        }
+        h1 {
+            font-style: italic;
+        }
+        .section {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 5px;
+            margin-top: 5px;
+        }
+        .radio-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 5px;
+        }
+        button {
+            background-color: #FFD700;
+            color: black;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+            margin-top: 10px;
+        }
+    </style>
+    <script>
+        function calcularTotal() {
+            let cantidadPersonas = parseInt(document.getElementById("cantidad_personas").value) || 0;
+            let cantidadBoletos = parseInt(document.getElementById("cantidad_boletos").value) || 0;
+            let cineco = document.querySelector('input[name="cineco"]:checked').value;
+
+            let boletosPermitidos = cantidadPersonas * 7;
+            let total = 0;
+
+            if (cantidadBoletos > boletosPermitidos) {
+                document.getElementById("mensaje").innerText = `No puedes comprar más de ${boletosPermitidos} boletos.`;
+                document.getElementById("total_pagar").value = "";
+                return;
+            } else {
+                document.getElementById("mensaje").innerText = "";
+            }
+
+            if (cantidadBoletos <= 2) {
+                total = cantidadBoletos * 12;
+            } else if (cantidadBoletos <= 5) {
+                total = (cantidadBoletos * 12) * 0.9;
+            } else {
+                total = (cantidadBoletos * 12) * 0.85;
+            }
+
+            if (cineco === "si") {
+                total *= 0.9;
+            }
+
+            document.getElementById("total_pagar").value = `$${total.toFixed(2)}`;
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Cinépolis</h1>
+        <form action="/Cinepolis2" method="post">
+            <div class="section">
+                <h3>Entradas</h3>
+                <label>Nombre:</label>
+                <input type="text" name="nombre" placeholder="Ingrese su nombre" required>
+                
+                <label>Cantidad Compradores:</label>
+                <input type="number" id="cantidad_personas" name="cantidad_personas" min="1" required oninput="calcularTotal()">
+                
+                <label>Tarjeta Cinéco:</label>
+                <div class="radio-group">
+                    <input type="radio" name="cineco" value="si" onclick="calcularTotal()"> Sí
+                    <input type="radio" name="cineco" value="no" checked onclick="calcularTotal()"> No
+                </div>
+                
+                <label>Cantidad de Boletos:</label>
+                <input type="number" id="cantidad_boletos" name="cantidad_boletos" min="1" required oninput="calcularTotal()">
+            </div>
+
+            <div class="section">
+                <h3>Salidas</h3>
+                <label>Valor a Pagar:</label>
+                <input type="text" id="total_pagar" value="{{ total if total else '' }}" disabled>
+                <p id="mensaje" style="color: red;"></p>
+            </div>
+
+            <div class="section">
+                <h3>Acciones</h3>
+                <button type="submit">Aceptar</button>
+                <button type="submit">salir</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

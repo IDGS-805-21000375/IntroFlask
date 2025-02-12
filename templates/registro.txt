@@ -1,0 +1,10 @@
+Nombre del cliente: cris
+Cantidad de boletos comprados: 4
+**Descuento aplicado por tarjeta CINECO incluido.**
+Total pagado: $38.88
+------------------------------
+Nombre del cliente: cris
+Cantidad de boletos comprados: 4
+**Descuento aplicado por tarjeta CINECO incluido.**
+Total pagado: $38.88
+------------------------------
