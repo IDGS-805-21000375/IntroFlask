@@ -1,4 +1,6 @@
 from flask import Flask,render_template, request
+import forms
+
 
 app=Flask(__name__)
 
@@ -62,8 +64,8 @@ def operas():
 def result():
     if request.method == "POST":
         try:
-            num1 = int(request.form.get("n1", 0))
-            num2 = int(request.form.get("n2", 0))
+            num1 = int(request.form.get("n1"))
+            num2 = int(request.form.get("n2"))
             resultado = num1 * num2
             return f"La multiplicación de {num1} x {num2} = {resultado}"
         except ValueError:
@@ -71,9 +73,21 @@ def result():
     return "Usa el formulario para enviar los números."
 
     
-    
-    
-    
+
+app.route("/alumnos", methods=["GET", "POST"])
+def alumnos():
+    mat=''
+    nom=''
+    ape=''
+    email=''
+    alumno_clase= forms.UserForm(request.form)
+    if request.method== "POST":
+        mat=alumno_clase.matricula.data
+        nom=alumno_clase.nombre.data
+        ape=alumno_clase.apellido.data
+        email=alumno_clase.email.data
+        print('Nombre: {}'.format(nom)) 
+    return render_template("Alumnos.html",form=alumno_clase)
     
 @app.route("/Cinepolis")
 def Cine1():
@@ -86,28 +100,25 @@ def calcularDescuento2(numB):
     return numB * 12
 
 def calcularDescuento5(numB):
-    return (numB * 12) * 0.9  # 10% de descuento
+    return (numB * 12) * 0.9  
 
 def calcularDescuentoMAS5(numB):
-    return (numB * 12) * 0.85  # 15% de descuento
+    return (numB * 12) * 0.85  
 
 def aplicarDescuentoTarjeta(total):
-    return total * 0.9  # 10% de descuento adicional
+    return total * 0.9  #
 
 @app.route("/Cinepolis2", methods=["GET", "POST"])
 def Cine():
     total = None
     mensaje = ""
-
     if request.method == "POST":
         try:
             nombre = request.form["nombre"]
             numP = int(request.form["cantidad_personas"])
             numB = int(request.form["cantidad_boletos"])
             tarjetaCINECO = request.form.get("cineco") == "si"
-
             boletosPermitidos = calcularBoletos(numP)
-
             if numB > boletosPermitidos:
                 mensaje = f"No puedes comprar más de {boletosPermitidos} boletos."
             else:
@@ -120,12 +131,9 @@ def Cine():
 
                 if tarjetaCINECO:
                     total = aplicarDescuentoTarjeta(total)
-
                 total = f"${total:.2f}"
-
         except ValueError:
             mensaje = "Por favor, ingresa valores válidos."
-
     return render_template("Cinepolis.html", total=total, mensaje=mensaje)
 
 
