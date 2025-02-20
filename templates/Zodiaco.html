@@ -1,0 +1,70 @@
+{% extends "layout.html" %}
+
+{% block container %}
+{% import "_macros.html" as macros %}
+<h1>Zodiaco Chino</h1>
+
+<div class="row" style="display: flex; justify-content: space-between; align-items: flex-start;">
+   <!-- Formulario en la primera columna -->
+   <div style="flex: 0 0 48%; padding-right: 20px;">
+      <form action="" method="post" novalidate>
+         <div class="row control-group">
+            <div class="form-group col-xs-12">
+               {{ macros.campoNuevo(form.nombre, class="form-control", value=nom if nom else '') }}
+            </div>
+         </div>
+
+         <div class="row control-group">
+            <div class="form-group col-xs-12">
+               {{ macros.campoNuevo(form.apellidoP, class="form-control", value=apeP if apeP else '') }}
+            </div>
+         </div>
+
+         <div class="row control-group">
+            <div class="form-group col-xs-12">
+               {{ macros.campoNuevo(form.apellidoM, class="form-control", value=apeM if apeM else '') }}
+            </div>
+         </div>
+
+         <div class="row control-group">
+            <div class="form-group col-xs-12">
+               {{ macros.campoNuevo(form.dia, class="form-control", value=dia if dia else '') }}
+            </div>
+         </div>
+
+         <div class="row control-group">
+            <div class="form-group col-xs-12">
+               {{ macros.campoNuevo(form.mes, class="form-control", value=mes if mes else '') }}
+            </div>
+         </div>
+
+         <div class="row control-group">
+            <div class="form-group col-xs-12">
+               {{ macros.campoNuevo(form.año, class="form-control", value=año if año else '') }}
+            </div>
+         </div>
+
+         <!-- Agregamos el campo de Sexo -->
+         <div class="row control-group">
+            <div class="form-group col-xs-12">
+               {{ macros.campoNuevo(form.sexo) }}
+            </div>
+         </div>
+
+         <input type="submit" value="Guardar" class="btn btn-primary">
+      </form>
+   </div>
+
+   <!-- Información al lado del formulario -->
+   <div style="flex: 0 0 48%; padding-left: 20px;">
+      {% if nom %}
+      <h3>Hola {{ nom + " " + apeP + " "+ apeM }}</h3>
+      <h3>Tienes {{ edad }} años</h3>
+      <h3>Sexo: {{ sexo }}</h3>
+      <h3>Signo zodiacal chino: {{ signo }}</h3>
+      <img src="{{ imagen_signo }}" alt="Signo Zodiacal" style="width:150px; height:150px;">
+      {% endif %}
+   </div>
+</div>
+
+{% endblock %}

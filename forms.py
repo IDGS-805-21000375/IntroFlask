@@ -1,11 +1,18 @@
 from wtforms import Form
 from flask_wtf import FlaskForm
-from wtforms import StringField,SubmitField,FieldList,RadioField,EmailField
+from wtforms import StringField,SubmitField,FieldList,RadioField, IntegerField, EmailField
+from wtforms import validators
 
 class UserForm(Form):
-    matricula=StringField('Matricula')
-    nombre=StringField('Nombre')
-    apellido=StringField('Apellido')
-    matricula=StringField('Matricula')
-    email=EmailField('Correo')
+    matricula = StringField("Matricula",[
+        validators.DataRequired(message="El campo es requerido"),
+        validators.length(min=3, max=10, message="El campo debe tener entre 3 y 10 caracteres")
+    ])
+    nombre = StringField("Nombre",[
+        validators.DataRequired(message="El campo es requerido"),
+    ])
     
+    apellido = StringField("Apellido")
+    email= EmailField("Correo", [
+        validators.Email(message="Ingrese un correo valido")
+    ])

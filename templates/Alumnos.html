@@ -3,10 +3,34 @@
 {% block container %}
 {% import "_macros.html" as macros%}
    <h1>Alumnos</h1>
-   <form action="" method="post">
-    {{macros.campoNuevo(form.nombre)}}
-    {{macros.campoNuevo(form.apellido)}}
-    {{macros.campoNuevo(form.matricula)}}
-    {{macros.campoNuevo(form.email)}}
+   <form action="" method="post" novalidate>
+      <div class="row control-group">
+         <di class=" form-groupform-group col-xs-12 floating-label-from-group controls">
+           {{macros.campoNuevo(form.matricula, class="form-control")}}
+         </di>
+      </div>
+
+      <div class="row control-group">
+         <di class=" form-groupform-group col-xs-12 floating-label-from-group controls">
+           {{macros.campoNuevo(form.nombre, class="form-control")}}
+         </di>
+      </div>
+
+      <div class="row control-group">
+         <di class=" form-groupform-group col-xs-12 floating-label-from-group controls">
+           {{macros.campoNuevo(form.apellido, class="form-control")}}
+           
+         </di>
+      </div>
+
+      <div class="row control-group">
+         <di class=" form-groupform-group col-xs-12 floating-label-from-group controls">
+           {{macros.campoNuevo(form.email, class="form-control")}}
+         </di>
+      </div>
+   <input type="submit" value="Guardar" class="btn btn-primary">
    </form>
+   <h2>matricula: {{mat}}</h2>
+   <h2>Nombre: {{nom}}</h2>
+   <h2>Correo: {{email}}</h2>
 {%endblock%}

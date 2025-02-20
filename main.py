@@ -1,5 +1,7 @@
 from flask import Flask,render_template, request
 import forms
+from datetime import datetime
+import Zodiaco
 
 
 app=Flask(__name__)
@@ -74,21 +76,68 @@ def result():
 
     
 
-app.route("/alumnos", methods=["GET", "POST"])
+
+
+@app.route("/alumnos", methods = ["GET", "POST"])
 def alumnos():
-    mat=''
-    nom=''
-    ape=''
-    email=''
-    alumno_clase= forms.UserForm(request.form)
-    if request.method== "POST":
-        mat=alumno_clase.matricula.data
-        nom=alumno_clase.nombre.data
-        ape=alumno_clase.apellido.data
-        email=alumno_clase.email.data
+    mat=""
+    nom=""
+    ape=""
+    email=""
+    alumno_clase=forms.UserForm(request.form)
+    if request.method=="POST" and alumno_clase.validate():
+        mat = alumno_clase.matricula.data
+        nom = alumno_clase.nombre.data
+        ape = alumno_clase.apellido.data
+        email = alumno_clase.email.data
         print('Nombre: {}'.format(nom)) 
-    return render_template("Alumnos.html",form=alumno_clase)
+    return render_template("Alumnos.html", form=alumno_clase, mat=mat, nom=nom, ape=ape, email=email)
+
+
+
+def calcular_edad(dia, mes, año):
+    hoy = datetime.today()
+    fecha_nacimiento = datetime(año, mes, dia)
+    edad = hoy.year - fecha_nacimiento.year - ((hoy.month, hoy.day) < (fecha_nacimiento.month, fecha_nacimiento.day))
+    return edad
+
+def signo_zodiaco_chino(año):
+    signos = ["Mono", "Gallo", "Perro", "Cerdo", "Rata", "Buey", "Tigre", "Conejo", "Dragon", "Serpiente", "Caballo", "Cabra"]
+    return signos[año % 12]  
+
+@app.route("/zodiaco", methods=["GET", "POST"])
+def zodiaco():
+    nom = ""
+    apeP = ""
+    apeM = ""
+    dia = ""
+    mes = ""
+    año = ""
+    edad = None
+    signo = ""
+    sexo = ""
+    imagen_signo = ""
+
+    alumno_claseZ = Zodiaco.UserFormZ(request.form)
+    if request.method == "POST" and alumno_claseZ.validate():
+        nom = alumno_claseZ.nombre.data
+        apeP = alumno_claseZ.apellidoP.data
+        apeM = alumno_claseZ.apellidoM.data
+        dia = int(alumno_claseZ.dia.data)
+        mes = int(alumno_claseZ.mes.data)
+        año = int(alumno_claseZ.año.data)
+        sexo = "Masculino" if alumno_claseZ.sexo.data == "M" else "Femenino"
+
+        edad = calcular_edad(dia, mes, año)
+        signo = signo_zodiaco_chino(año)
+        imagen_signo = f"../static/bootstrap/img/{signo.lower()}.jpg"
+
+    return render_template("Zodiaco.html", form=alumno_claseZ, nom=nom, apeP=apeP, apeM=apeM, dia=dia, mes=mes, año=año, edad=edad, signo=signo, imagen_signo=imagen_signo, sexo=sexo)
+  
     
+
+
+
 @app.route("/Cinepolis")
 def Cine1():
     return render_template("Cinepolis.html")
